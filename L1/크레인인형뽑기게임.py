@@ -1,33 +1,19 @@
 def solution(board, moves):
+    stacklist = []
     answer = 0
-    board.reverse()
-    board = list(map(list, zip(*board)))
-    
-    li = []
-    for tli in board:
-        tmp = []
-        for i in tli:
-            if i == 0:
-                break
-            tmp.append(i)
-        li.append(tmp)
-    
-    ans = []
+
     for i in moves:
-        if ans:
-            a = ans.pop()
-            if li[i-1]:
-                b = li[i-1].pop()
-                if a == b:
-                    answer += 2
-                else:
-                    ans.append(a)
-                    ans.append(b)
-            else:
-                ans.append(a)
-        else:
-            if li[i-1]:
-                ans.append(li[i-1].pop())
+        for j in range(len(board)):
+            if board[j][i-1] != 0:
+                stacklist.append(board[j][i-1])
+                board[j][i-1] = 0
+
+                if len(stacklist) > 1:
+                    if stacklist[-1] == stacklist[-2]:
+                        stacklist.pop(-1)
+                        stacklist.pop(-1)
+                        answer += 2
+                break
 
     return answer
 
